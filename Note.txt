@@ -1,0 +1,6 @@
+npmChallenges:
+    change grid cell state react to click. Solution: eventlis on each ceil instead of using useEffect
+
+Challenge:
+    when pass a non object as state to redux, get a non-serializable error
+    

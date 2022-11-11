@@ -1,0 +1,15 @@
+.draw {
+  width: 40px;
+  height: 40px;
+}
+.draw.down {
+  border-style: groove;
+}
+.cursor {
+  cursor: pointer;
+}
+.wall {
+  background-color: rgb(57, 57, 57);
+}
+.pointer {
+}
