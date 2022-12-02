@@ -11,6 +11,12 @@
 .endPoint {
   background-color: rgb(14, 2, 248);
 }
+.isPath {
+  background-color: yellow;
+}
+.visiting {
+  background-color: cornflowerblue;
+}
 
 @keyframes App-logo-spin {
   from {

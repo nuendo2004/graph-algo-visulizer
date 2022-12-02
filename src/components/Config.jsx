@@ -1,10 +1,15 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resize, toggleTools, tools } from "../store/configReducer";
+import {
+  resize,
+  toggleTools,
+  tools,
+  toggleVisualizer,
+} from "../store/configReducer";
 import styles from "./Config.module.css";
 
-const Config = () => {
-  const { mapSize, gridSize, toolSelector } = useSelector(
+const Config = (props) => {
+  const { mapSize, gridSize, toolSelector, PFisRunning } = useSelector(
     (state) => state.gameConfig
   );
   const rowInput = useRef(mapSize.row);
@@ -15,6 +20,10 @@ const Config = () => {
   const reSize = (row, col, grid) => {
     console.log({ row, col, grid });
     dispatch(resize({ row, col, grid }));
+  };
+
+  const handdleRunVisualizer = () => {
+    dispatch(toggleVisualizer());
   };
 
   return (
@@ -65,6 +74,9 @@ const Config = () => {
           onClick={() => dispatch(toggleTools(tools.pen))}
         >
           Draw
+        </button>
+        <button onClick={handdleRunVisualizer}>
+          {PFisRunning ? "Clear" : "Start"}
         </button>
       </div>
     </div>

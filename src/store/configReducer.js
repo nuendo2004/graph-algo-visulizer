@@ -11,9 +11,10 @@ const tools = {
 const ConfigSlice = createSlice({
   name: "game-config",
   initialState: {
-    mapSize: { row: 20, col: 20 },
-    gridSize: 25,
+    mapSize: { row: 30, col: 60 },
+    gridSize: 16,
     toolSelector: tools.default,
+    PFisRunning: false,
   },
   reducers: {
     resize(state, action) {
@@ -28,6 +29,9 @@ const ConfigSlice = createSlice({
       if (action.payload) state.toolSelector = action.payload;
       else state.toolSelector = tools.default;
     },
+    toggleVisualizer(state) {
+      state.PFisRunning = !state.PFisRunning;
+    },
   },
 });
 
@@ -35,4 +39,5 @@ export { tools };
 
 export default ConfigSlice.reducer;
 
-export const { resize, togglePen, toggleTools } = ConfigSlice.actions;
+export const { resize, togglePen, toggleTools, toggleVisualizer } =
+  ConfigSlice.actions;
