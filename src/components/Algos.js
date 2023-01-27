@@ -16,6 +16,7 @@ const Algos = () => {
     (state) => state.map
   );
   const { PFisRunning } = useSelector((state) => state.gameConfig);
+  const { path: shortestPath } = useSelector((state) => state.map);
   const runVisualizer = () => {
     console.log(spawnPoint);
     console.log(destination);
@@ -29,6 +30,9 @@ const Algos = () => {
     console.log(path);
     dispatch(createPath(path));
     dispatch(setShowPath(true));
+    if (path.length === 0) {
+      window.alert("No path found");
+    }
   };
   useEffect(() => {
     if (PFisRunning) {

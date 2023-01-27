@@ -11,8 +11,15 @@ const Gridboard = (props) => {
     (state) => state.gameConfig
   );
   const [mouseDown, setMouseDown] = useState(false);
-  const { obstacles, spawnPoint, destination, path, showPath, visitingCell } =
-    useSelector((state) => state.map);
+  const {
+    obstacles,
+    spawnPoint,
+    destination,
+    path,
+    showPath,
+    visitingCell,
+    visitedCell,
+  } = useSelector((state) => state.map);
 
   const handleWall = (cell) => {
     const wallExist = obstacles.includes(cell[2]);
@@ -72,7 +79,7 @@ const Gridboard = (props) => {
             isStart && "startPoint"
           } ${isEnd && "endPoint"} ${isPath && showPath && "isPath"} ${
             visitingCell.includes(c) && "visiting"
-          }`}
+          } ${visitedCell.includes(c) && "visited"}`}
           style={{
             height: `${gridSize}px`,
             width: `${gridSize}px`,

@@ -6,6 +6,7 @@ import {
   tools,
   toggleVisualizer,
 } from "../store/configReducer";
+import { clearMap, randomWalls, generateMaze } from "../store/mapReducer";
 import styles from "./Config.module.css";
 
 const Config = (props) => {
@@ -77,6 +78,21 @@ const Config = (props) => {
         </button>
         <button onClick={handdleRunVisualizer}>
           {PFisRunning ? "Clear" : "Start"}
+        </button>
+        <button onClick={() => dispatch(clearMap())}>Clear Map</button>
+        <button
+          onClick={() => {
+            dispatch(randomWalls(mapSize.row * mapSize.col));
+          }}
+        >
+          Gen walls
+        </button>
+        <button
+          onClick={() => {
+            dispatch(generateMaze(mapSize));
+          }}
+        >
+          Gen Maze
         </button>
       </div>
     </div>

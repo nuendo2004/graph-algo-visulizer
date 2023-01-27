@@ -15,7 +15,10 @@
   background-color: yellow;
 }
 .visiting {
-  background-color: cornflowerblue;
+  background-color: rgb(60, 116, 220);
+}
+.visited {
+  background-color: rgb(104, 138, 202);
 }
 
 @keyframes App-logo-spin {
