@@ -1,11 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const tools = {
-  default: "default",
-  pen: "pen",
-  start: "start",
-  end: "end",
-  delete: "delete",
+abstract class Tool {
+  toolType: Tools;
+  isDrawing: boolean;
+  draw: () => void;
+}
+
+type Config = {
+  mapSize: { row: number; col: number; grid: number };
+  currentTools: Tools;
+  isRunning: boolean;
 };
 
 const ConfigSlice = createSlice({
@@ -13,8 +17,8 @@ const ConfigSlice = createSlice({
   initialState: {
     mapSize: { row: 30, col: 60 },
     gridSize: 16,
-    toolSelector: tools.default,
     PFisRunning: false,
+    isDrawing: false,
   },
   reducers: {
     resize(state, action) {
@@ -27,7 +31,7 @@ const ConfigSlice = createSlice({
     },
     toggleTools(state, action) {
       if (action.payload) state.toolSelector = action.payload;
-      else state.toolSelector = tools.default;
+      else state.toolSelector = Tools.DEFAULT;
     },
     toggleVisualizer(state) {
       state.PFisRunning = !state.PFisRunning;
@@ -35,7 +39,7 @@ const ConfigSlice = createSlice({
   },
 });
 
-export { tools };
+export { Tools, Tool };
 
 export default ConfigSlice.reducer;
 

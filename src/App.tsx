@@ -1,4 +1,5 @@
 import "./App.css";
+import React from "react";
 import Window from "./components/Window";
 import { Provider } from "react-redux";
 import Store from "./store";
@@ -10,7 +11,7 @@ function App() {
     <Provider store={Store}>
       <div className="App">
         <Window />
-        <Algos />
+        {/* <Algos /> */}
       </div>
       <Config />
     </Provider>

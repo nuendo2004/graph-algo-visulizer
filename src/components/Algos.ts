@@ -11,12 +11,12 @@ import {
 
 const Algos = () => {
   const dispatch = useDispatch();
-  const { mapSize } = useSelector((state) => state.gameConfig);
+  const { mapSize } = useSelector((state: RootState) => state.gameConfig);
   const { obstacles, spawnPoint, destination } = useSelector(
-    (state) => state.map
+    (state: RootState) => state.map
   );
-  const { PFisRunning } = useSelector((state) => state.gameConfig);
-  const { path: shortestPath } = useSelector((state) => state.map);
+  const { PFisRunning } = useSelector((state: RootState) => state.gameConfig);
+  const { path: shortestPath } = useSelector((state: RootState) => state.map);
   const runVisualizer = () => {
     console.log(spawnPoint);
     console.log(destination);

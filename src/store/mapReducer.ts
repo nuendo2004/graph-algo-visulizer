@@ -1,29 +1,50 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Erase, Tools } from "./tools";
+import { Cell } from "./Class";
+
+interface IAction<T, P> {
+  type: T;
+  payload: P;
+}
+
+interface MapState {
+  currentTool: Tools;
+  spawnPoint: Cell | null;
+  destination: Cell | null;
+  obstacles: number[];
+  visitingCell: number[];
+  visitedCell: number[];
+  path: number[];
+  showPath: boolean;
+}
+
+const initialState: MapState = {
+  currentTool: Tools.DEFAULT,
+  obstacles: [],
+  spawnPoint: null,
+  destination: null,
+  visitingCell: [],
+  visitedCell: [],
+  path: [],
+  showPath: false,
+};
 
 const mapSlice = createSlice({
   name: "render-map",
-  initialState: {
-    obstacles: [],
-    spawnPoint: [null, null, null],
-    destination: [null, null, null],
-    visitingCell: [],
-    visitedCell: [],
-    path: [],
-    showPath: false,
-  },
+  initialState,
   reducers: {
-    spawnPawn(state, action) {
+    spawnPawn(state, action: IAction<string, Cell>) {
       state.spawnPoint = action.payload;
     },
-    setFinal(state, action) {
+    setFinal(state, action: IAction<string, Cell>) {
       state.destination = action.payload;
     },
-    addWall(state, action) {
+    addWall(state, action: IAction<string, number>) {
       state.obstacles.push(action.payload);
     },
-    removeWall(state, action) {
-      const filtered = state.obstacles.filter((w) => {
-        return w !== action.payload;
+    removeWall(state, action: IAction<string, number>) {
+      const filtered = state.obstacles.filter((wall) => {
+        return wall !== action.payload;
       });
       state.obstacles = filtered;
     },
@@ -52,25 +73,14 @@ const mapSlice = createSlice({
       state.path = [];
     },
     clearMap(state) {
-      state.obstacles = [];
-      state.spawnPoint = [null, null, null];
-      state.destination = [null, null, null];
-      state.path = [];
-      state.showPath = false;
-      state.visitedCell = [];
-      state.visitingCell = [];
+      state = initialState;
     },
-    randomWalls(state, action) {
+    randomWalls(state, action: IAction<string, number>) {
       state.path = [];
-      let wall = [];
+      let wall: number[] = [];
       for (let i = 0; i < action.payload * 0.3; i++) {
         wall.push(
-          random(
-            0,
-            action.payload,
-            state.spawnPoint[2] || -1,
-            state.destination[2] || -1
-          )
+          random(0, action.payload, state.spawnPoint, state.destination)
         );
       }
       console.log(wall);
@@ -78,15 +88,15 @@ const mapSlice = createSlice({
     },
     generateMaze(state, action) {
       state.path = [];
-      let wall = [];
+      let wall: number[] = [];
       // Todo: mazeSize should be = gridWidth + gridHight
       for (let i = 0; i < 90; i++) {
         let comp = gerenateMazePart(
           random(
             0,
             action.payload.col * action.payload.row,
-            state.spawnPoint[2] || -1,
-            state.destination[2] || -1
+            state.spawnPoint,
+            state.destination
           ),
           action.payload
         );
@@ -94,14 +104,14 @@ const mapSlice = createSlice({
         wall = [...wall, ...comp];
       }
       const walls = wall.filter((w) => {
-        return w !== state.spawnPoint[2] && state.destination[2];
+        return w !== state.spawnPoint?.getGrid && state.destination?.getGrid;
       });
       state.obstacles = walls;
     },
   },
 });
-const gerenateMazePart = (cell, map) => {
-  let w = [];
+const gerenateMazePart = (cell: number, map: { col: number; row: number }) => {
+  let w: number[] = [];
   const x = Math.ceil(Math.random() * 4);
   const dir = Math.round(Math.random()) ? 1 : -1;
   for (let i = 0; i < x; i++) {
@@ -117,9 +127,9 @@ const gerenateMazePart = (cell, map) => {
   return w;
 };
 
-const random = (min, max, s, e) => {
-  let w = null;
-  while (w === s[2] || w === e[2] || w === null)
+const random = (min: number, max: number, s: Cell | null, e: Cell | null) => {
+  let w: null | number = null;
+  while ((s && e && (w === s.getGrid || w === e.getGrid)) || w === null)
     w = Math.floor(Math.random() * (max + 1 - min) + min);
   return w;
 };
