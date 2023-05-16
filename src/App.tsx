@@ -4,7 +4,7 @@ import Window from "./components/Window";
 import { Provider } from "react-redux";
 import Store from "./store";
 import Config from "./components/Config";
-import Algos from "./components/Algos";
+import Algos from "./hooks/useBFS";
 
 function App() {
   return (

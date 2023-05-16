@@ -1,18 +1,20 @@
-import Node from "./Node";
+import INode from "./Node";
 
-class Queue {
+class Queue<T> {
+  head: INode<T> | null;
+  tail: INode<T> | null;
   constructor() {
     this.head = null;
     this.tail = this.head;
   }
 
-  isEmpty() {
-    if (this.head == null) return true;
+  get isEmpty(): boolean {
+    if (this.head === null && this.tail === null) return true;
     return false;
   }
 
-  enqueue(val) {
-    const newHead = new Node(val);
+  enqueue(val: INode<T>) {
+    const newHead = val;
     if (!this.head) {
       this.head = newHead;
       this.tail = newHead;
@@ -24,27 +26,28 @@ class Queue {
     }
   }
 
-  dequeue() {
+  dequeue(): INode<T> | null {
     if (!this.tail) return null;
     if (this.tail === this.head) {
-      const res = this.tail.value;
+      const res = this.tail;
       this.head = null;
       this.tail = null;
       return res;
     }
     const temp = this.tail;
-    const res = temp.value;
+    const res = temp;
     this.tail = temp.prev;
-    this.tail.next = null;
+    this.tail!.next = null;
     return res;
   }
 
   peek() {
+    if (!this.tail) return null;
     return this.tail.value;
   }
 
   print() {
-    let res = [];
+    let res: T[] = [];
     let cur = this.head;
     while (cur != null) {
       res.push(cur.value);

@@ -3,7 +3,10 @@ import configReducer from "./configReducer";
 import mapReducer from "./mapReducer";
 
 const Store = configureStore({
-  reducer: { gameConfig: configReducer, map: mapReducer },
+  reducer: { map: mapReducer },
 });
+
+export type AppDispatch = typeof Store.dispatch;
+export type RootState = ReturnType<typeof Store.getState>;
 
 export default Store;
